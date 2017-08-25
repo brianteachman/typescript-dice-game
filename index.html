@@ -1,0 +1,26 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <div id="dice-game"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.20.12/system.js"></script>
+    <script>
+        SystemJS.config({
+            map: {
+                'lodash': './node_modules/lodash/lodash.js',
+                'chance': './node_modules/chance/chance.js',
+                'dieRoller': './dieRoller.js'
+            }
+        });
+        SystemJS.import('main.js').then(function(m) {
+            console.log(m);
+        });
+    </script>
+</body>
+
+</html>

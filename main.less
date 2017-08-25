@@ -1,0 +1,51 @@
+@color-dark: darkcyan;
+@color-light: papayawhip;
+@color-light-green: lightseagreen;
+@color-light-blue: lightskyblue;
+
+#dice-game {
+    display: grid;
+    grid-template-columns: 140px 140px 140px 140px 3fr 1fr;
+    /* grid-template-rows: 1fr; */
+
+    .dice-holder {
+        border: @color-light-blue solid 1em;
+        padding: 10px 10px 0;
+
+        p {
+            font-size: 1.8em;
+            line-height: 1em;
+            text-align: center;
+        }
+
+        img {
+            width: auto;
+            max-width: 90px;
+        }
+    }
+
+    .play-button {
+        background-color: @color-dark;
+        margin-left: 10px;
+        color: @color-light;
+        font-size: 2em;
+        padding: 10px;
+    }
+
+    .score-box {
+        h2 {
+            font-size: 2em;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+        p {
+            font-size: 3em;
+            text-align: center;
+        }
+    }
+
+    .hover {
+        background-color: @color-light;
+    }
+}
