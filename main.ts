@@ -22,8 +22,8 @@ class Game {
 // class Game implements dieRoller {
     // protected rolledValue: number
     // rollDie: () => void
-    // showString: () => string
-    // showNumber: () => number
+    // getDieString: () => string
+    // getDieNumber: () => number
 
     protected parentName: string = '';
     private gameContainer: HTMLElement;
@@ -31,8 +31,14 @@ class Game {
     dice: Array<DiceElement> = [];
 
     throwCount: number;
+    gameRound: number;
+    score: number;
 
-    constructor(parentName?: string) {
+    constructor(score: number=0, parentName?: string) {
+        if (isNaN(this.gameRound)) {
+            this.gameRound = 0;
+        }
+        this.score = score;
         if  (parentName == undefined) {
             this.parentName = diceGameContainerElement;
         }
@@ -41,14 +47,33 @@ class Game {
         }
         this.gameContainer = document.getElementById(this.parentName);
         this.buildGameElements();
-        console.log('Game started: in element having a id="'+this.parentName+'" .');
+        console.log('Game instantiated: started in element id="'+this.parentName+'" .');
     }
 
-    play(): void {
-        console.log("Let's play!");
+    start(): number {
+        this.score = 0;
+        this.addPlayButton("Start Game");
+        this.addScoreBox('score-box');
+        console.log("Game is ready to start.");
+        return this.score;
+    }
+
+    play(): number {
         this.throwCount = 0;
         this.clearPage();
+        console.log("Game started, let's play!");
 
+        this.rollDice();
+
+        this.addPlayButton("Roll the dice");
+        this.addScoreBox('score-box');
+        console.log("The dice are down. You rolled a "+this.throwCount+'. Current Score: '+this.score+'.');
+        this.gameRound += 1;
+        return this.score;
+    }
+
+    rollDice(logIt:boolean=false): void {
+        let diceLog: string;
         _.each(this.dice, (elem) => {
             let die: dieRoller = new dieRoller();
             elem.p.textContent = die.showString();
@@ -62,16 +87,19 @@ class Game {
             elem.div.appendChild(elem.p);
             this.gameContainer.appendChild(elem.div);
             this.throwCount += die.showNumber();
+
+            // logging
+            diceLog += elem.p.textContent + " ";
         });
-        this.logDice();
-        this.addPlayButton("Roll the dice");
-        this.addScoreBox('score-box');
-        console.log("Screen building complete.");
+        this.score += this.throwCount;
+        if (logIt) {
+            console.log(`${diceLog}`);
+        }
     }
 
     buildGameElements(): void {
         for (let index: number = 0; index < 4; index++) {
-            //
+
             let p: Element = document.createElement('p');
             let div: Element = document.createElement('div');
             (div as HTMLElement).className = 'dice-holder';
@@ -91,7 +119,6 @@ class Game {
                 (p as HTMLElement).style.transform = 'rotate(-360deg)';
                 (p as HTMLElement).style.transition = "transform 1s ease";
             }
-
             this.dice.push({
                 'div': div,
                 'p': p
@@ -107,22 +134,24 @@ class Game {
 
     addScoreBox(className?: string): void {
         let scoreBox: Element = document.createElement('div');
-        let scoreTitle: Element = document.createElement('h2');
-        let scoreText: Element = document.createElement('p');
-
-        scoreTitle.textContent = 'Score';
-        scoreText.textContent = this.throwCount.toString();
         scoreBox.className = className;
 
-        scoreBox.appendChild(scoreTitle);
+        let scoreBoxTitle: Element = document.createElement('h2');
+        scoreBoxTitle.textContent = 'Score';
+
+        let throwText: Element = document.createElement('p');
+        throwText.className = 'throw-text';
+        throwText.textContent = this.throwCount.toString();
+
+        let scoreText: Element = document.createElement('p');
+        scoreText.className = 'score-text';
+        // if (this.gameRound == 0) {}
+        scoreText.textContent = 'TOTAL: ' + this.score.toString();
+
+        scoreBox.appendChild(scoreBoxTitle);
+        scoreBox.appendChild(throwText);
         scoreBox.appendChild(scoreText);
         this.gameContainer.appendChild(scoreBox);
-    }
-
-    logDice(): void {
-        let diceLog: string = '';
-        _.each(this.dice, (elem) => {  diceLog += elem.p.textContent + " " })
-        console.log(`${diceLog}`);
     }
 
     // Cleanup page for rewrite
@@ -139,15 +168,17 @@ class Game {
         (button as HTMLElement).className = 'play-button';
         (button as HTMLElement).onclick = (event) => {
             // Reroll the dice with recursive type magic
-            game = new Game();
+            game = new Game(this.score);
             game.play();
         }
         this.gameContainer.appendChild(button);
     }
 }
 
-let game: Game = new Game();
-game.play();
+let score: number = 0;
+let game: Game = new Game(score);
+// console.log('Game over! You scored '+game.play()+'.');
+console.log('Game over! You scored '+game.start()+'.');
 
 // Compile using CommonJS (SystemJS)
 // $ tsc main.ts

@@ -1,23 +1,11 @@
 {
-    "version": "2.0.0",
-    "task": [{
-            "taskName": "TypeScript Compile",
-            "type": "shell",
-            "command": "tsc main.ts",
-            "problemMatcher": [
-                "$tsc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "taskName": "Less Compile",
-            "type": "shell",
-            "command": "lessc main.less main.css",
-            "problemMatcher": [],
-            "group": "build"
-        }
-    ]
+    "version": "0.1.0",
+    "command": "tsc",
+    "windows": {
+        "command": "tsc"
+    },
+    "isShellCommand": true,
+    "args": ["-lib", "es2015", "main.ts"],
+    "problemMatcher": "$tsc",
+    "showOutput": "silent"
 }

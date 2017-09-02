@@ -1,5 +1,5 @@
 @color-dark: darkcyan;
-@color-light: papayawhip;
+@color-light: ghostwhite;
 @color-light-green: lightseagreen;
 @color-light-blue: lightskyblue;
 
@@ -9,6 +9,7 @@
     /* grid-template-rows: 1fr; */
 
     .dice-holder {
+        background-color: @color-light;
         border: @color-light-blue solid 1em;
         padding: 10px 10px 0;
 
@@ -39,13 +40,19 @@
             margin-top: 20px;
             margin-bottom: 0;
         }
-        p {
+        p.throw-text {
             font-size: 3em;
             text-align: center;
+        }
+
+        p.score-text {
+            font-size: 1.2em;
+            text-align: right;
+            margin: 0 0.5em 0.5em 0;
         }
     }
 
     .hover {
-        background-color: @color-light;
+        background-color: white;
     }
 }
