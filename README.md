@@ -1,7 +1,11 @@
 
-# Self-Assessment : Enhancing your Dice Rolling Application
+# Self-Assessment : Dice Rolling Application
 
-Now that you have learned some advanced methods of TypeScript, let's apply them to your Dice Rolling application.
+Project app to learn TypeScript Fundmentals.
+
+EDx: TypeScript
+
+## Objectives:
 
 1. Convert your dieRoller class to be a compositional or Mixin class.
 

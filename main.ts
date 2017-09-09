@@ -43,14 +43,13 @@ class Game {
         this.gameRound = 1;
 
         console.log("Game started, let's play!");
-        console.log("\tYou rolled a "+this.throwCount+'. Current Score: '+this.score+'.');
         return this.score;
     }
 
     play(): number {
         this.clearPage();
         this.buildScreen();
-        console.log("The dice are down. You rolled a "+this.throwCount+'. Current Score: '+this.score+'.');
+        console.log("The dice are down.\n\tYou rolled a "+this.throwCount+'. Current Score: '+this.score+'.');
         this.gameRound += 1;
         return this.score;
     }
