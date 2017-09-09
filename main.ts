@@ -10,97 +10,65 @@ import dieRoller from './dieRoller.js';
 
 interface DiceElement {
     div: Element;
+    img: Element;
     p: Element;
 }
-
-const diceGameContainerElement = 'dice-game';
 
 // 2. Add a Type Guard to your application
 // 3. Use a Union Type or an Intersection Type in your application
 
 class Game {
-// class Game implements dieRoller {
-    // protected rolledValue: number
-    // rollDie: () => void
-    // getDieString: () => string
-    // getDieNumber: () => number
 
     protected parentName: string = '';
     private gameContainer: HTMLElement;
 
     dice: Array<DiceElement> = [];
+    numOfDice: number = 2;
 
     throwCount: number;
     gameRound: number;
     score: number;
 
-    constructor(score: number=0, parentName?: string) {
-        if (isNaN(this.gameRound)) {
-            this.gameRound = 0;
-        }
-        this.score = score;
-        if  (parentName == undefined) {
-            this.parentName = diceGameContainerElement;
-        }
-        else {
-            this.parentName = parentName;
-        }
+    constructor(parentName:string='dice-game') {
+        this.parentName = parentName;
         this.gameContainer = document.getElementById(this.parentName);
-        this.buildGameElements();
+        this.gameRound = 0;
         console.log('Game instantiated: started in element id="'+this.parentName+'" .');
     }
 
     start(): number {
+        this.gameRound = 1;
+        this.throwCount = 0;
         this.score = 0;
-        this.addPlayButton("Start Game");
-        this.addScoreBox('score-box');
-        console.log("Game is ready to start.");
+
+        this.buildScreen();
+
+        console.log("Game started, let's play!");
         return this.score;
     }
 
     play(): number {
-        this.throwCount = 0;
         this.clearPage();
-        console.log("Game started, let's play!");
-
-        this.rollDice();
-
-        this.addPlayButton("Roll the dice");
-        this.addScoreBox('score-box');
+        this.buildScreen();
         console.log("The dice are down. You rolled a "+this.throwCount+'. Current Score: '+this.score+'.');
         this.gameRound += 1;
         return this.score;
     }
 
-    rollDice(logIt:boolean=false): void {
-        let diceLog: string;
-        _.each(this.dice, (elem) => {
-            let die: dieRoller = new dieRoller();
-            elem.p.textContent = die.showString();
-
-            let img = document.createElement('img');
-            img.src = 'imgs/'+die.showNumber()+'.png'
-            img.className = die.showString();
-            // img.width = 80;
-
-            elem.div.appendChild(img);
-            elem.div.appendChild(elem.p);
-            this.gameContainer.appendChild(elem.div);
-            this.throwCount += die.showNumber();
-
-            // logging
-            diceLog += elem.p.textContent + " ";
-        });
-        this.score += this.throwCount;
-        if (logIt) {
-            console.log(`${diceLog}`);
+    buildScreen(): void {
+        this.addDiceBox();
+        if (this.gameRound == 0) {
+            this.addPlayButton('Start Game');
         }
+        else {
+            this.addPlayButton('Play Again');
+        }
+        this.addScoreBox('score-box');
     }
 
-    buildGameElements(): void {
-        for (let index: number = 0; index < 4; index++) {
+    addDiceBox(): void {
+        for (let index: number = 0; index < this.numOfDice; index++) {
 
-            let p: Element = document.createElement('p');
             let div: Element = document.createElement('div');
             (div as HTMLElement).className = 'dice-holder';
             (div as HTMLElement).onmouseover = () => {
@@ -109,6 +77,10 @@ class Game {
             (div as HTMLElement).onmouseout = () => {
                 (div as HTMLElement).className = 'dice-holder';
             }
+
+            let img = document.createElement('img');
+
+            let p: Element = document.createElement('p');
             (p as HTMLElement).onmousedown = () => {
                 (p as HTMLElement).style.transform = 'rotate(360deg)';
                 (p as HTMLElement).style.transition = "transform .5s ease";
@@ -119,10 +91,15 @@ class Game {
                 (p as HTMLElement).style.transform = 'rotate(-360deg)';
                 (p as HTMLElement).style.transition = "transform 1s ease";
             }
+
             this.dice.push({
                 'div': div,
+                'img': img,
                 'p': p
             });
+
+            // this.loadDice(true);
+            this.loadDice();
         }
         if (_.isEmpty(this.dice)) {
             console.log("Dice loading failed!");
@@ -130,6 +107,43 @@ class Game {
         else {
             console.log(`[${this.dice.length}] Dice loaded.`);
         }
+    }
+
+    loadDice(isLogged:boolean=false): void {
+        let diceLog: string;
+        _.each(this.dice, (elem) => {
+            let die: dieRoller = new dieRoller();
+            elem.p.textContent = die.showString();
+
+            (elem.img as HTMLImageElement).src = 'imgs/'+die.showNumber()+'.png';
+            elem.img.className = die.showString();
+            // img.width = 80;
+
+            // build dice DOM
+            elem.div.appendChild(elem.img);
+            elem.div.appendChild(elem.p);
+            this.gameContainer.appendChild(elem.div);
+            this.throwCount += die.showNumber();
+
+            // logging
+            diceLog += elem.p.textContent + " ";
+        });
+        this.score += this.throwCount;
+        if (isLogged) {
+            console.log(`${diceLog}`);
+        }
+    }
+
+    // Button to roll all the dice at once
+    addPlayButton(buttonText: string = "Press"): void {
+        let button: Element = document.createElement('button');
+        button.textContent = buttonText;
+        (button as HTMLElement).className = 'play-button';
+        (button as HTMLElement).onclick = (event) => {
+            // Reroll the dice with recursive type magic
+            this.play();
+        }
+        this.gameContainer.appendChild(button);
     }
 
     addScoreBox(className?: string): void {
@@ -156,28 +170,16 @@ class Game {
 
     // Cleanup page for rewrite
     clearPage(): void {
+        console.log('Clear page: '+this.gameContainer);
         while (this.gameContainer.firstChild) {
+            console.log(this.gameContainer.firstChild);
             this.gameContainer.removeChild(this.gameContainer.firstChild);
         }
-    }
-
-    // Button to roll all the dice at once
-    addPlayButton(buttonText: string = "Press"): void {
-        let button: Element = document.createElement('button');
-        button.textContent = buttonText;
-        (button as HTMLElement).className = 'play-button';
-        (button as HTMLElement).onclick = (event) => {
-            // Reroll the dice with recursive type magic
-            game = new Game(this.score);
-            game.play();
-        }
-        this.gameContainer.appendChild(button);
+        this.dice = [];
     }
 }
 
-let score: number = 0;
-let game: Game = new Game(score);
-// console.log('Game over! You scored '+game.play()+'.');
+let game: Game = new Game();
 console.log('Game over! You scored '+game.start()+'.');
 
 // Compile using CommonJS (SystemJS)
