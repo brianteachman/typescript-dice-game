@@ -38,8 +38,7 @@ class dieRoller {
     protected rolledValue: number;
 
     constructor() {
-        this.rollDie();
-        console.log('New dieRoller init. '+this.rolledValue+' rolled');
+        console.log('New dieRoller initialized.');
     }
 
     // @randomNumber
@@ -48,12 +47,17 @@ class dieRoller {
         this.rolledValue = chance().d6();
         // this.rolledValue = chance().natural({min: 1, max: 6});
     }
-    showString(): string {
+    getString(): string {
+        if (this.rolledValue == undefined) {
+            this.rollDie();
+        }
         return RolledValue[ this.rolledValue-1 ];
     }
-    showNumber(): number {
+    getNumber(): number {
+        if (this.rolledValue == undefined) {
+            this.rollDie();
+        }
         return this.rolledValue;
-        // return this.rolledValue + 1;
     }
 }
 

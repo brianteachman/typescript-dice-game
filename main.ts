@@ -37,13 +37,13 @@ class Game {
     }
 
     start(): number {
-        this.gameRound = 1;
-        this.throwCount = 0;
         this.score = 0;
 
         this.buildScreen();
+        this.gameRound = 1;
 
         console.log("Game started, let's play!");
+        console.log("\tYou rolled a "+this.throwCount+'. Current Score: '+this.score+'.');
         return this.score;
     }
 
@@ -57,13 +57,13 @@ class Game {
 
     buildScreen(): void {
         this.addDiceBox();
+        this.addScoreBox('score-box');
         if (this.gameRound == 0) {
             this.addPlayButton('Start Game');
         }
         else {
-            this.addPlayButton('Play Again');
+            this.addPlayButton('Roll Again');
         }
-        this.addScoreBox('score-box');
     }
 
     addDiceBox(): void {
@@ -97,44 +97,57 @@ class Game {
                 'img': img,
                 'p': p
             });
-
-            // this.loadDice(true);
-            this.loadDice();
         }
+
+        // if (this.gameRound != 0) { }
+        // this.loadDice(true);
+        this.loadDice();
+
         if (_.isEmpty(this.dice)) {
             console.log("Dice loading failed!");
         }
         else {
-            console.log(`[${this.dice.length}] Dice loaded.`);
+            console.log(`[${this.dice.length}] dice loaded.`);
         }
     }
 
     loadDice(isLogged:boolean=false): void {
+        this.throwCount = 0;
         let diceLog: string;
-        _.each(this.dice, (elem) => {
-            let die: dieRoller = new dieRoller();
-            elem.p.textContent = die.showString();
+        let die: dieRoller = new dieRoller();
 
-            (elem.img as HTMLImageElement).src = 'imgs/'+die.showNumber()+'.png';
-            elem.img.className = die.showString();
+        _.each(this.dice, (elem) => {
+            die.rollDie();
+            let s_roll: string = die.getString();
+            let n_roll: number = die.getNumber();
+
+            elem.p.textContent = s_roll;
+            (elem.img as HTMLImageElement).src = 'imgs/'+n_roll+'.png';
+            elem.img.className = s_roll;
             // img.width = 80;
 
-            // build dice DOM
             elem.div.appendChild(elem.img);
             elem.div.appendChild(elem.p);
             this.gameContainer.appendChild(elem.div);
-            this.throwCount += die.showNumber();
+
+            this.throwCount += n_roll;
+            console.log('Throw: '+this.throwCount);
 
             // logging
             diceLog += elem.p.textContent + " ";
         });
-        this.score += this.throwCount;
+
+        // update score
+        if (this.gameRound > 0) {
+            this.score += this.throwCount;
+        }
+        console.log('Score: '+this.score);
+
         if (isLogged) {
             console.log(`${diceLog}`);
         }
     }
 
-    // Button to roll all the dice at once
     addPlayButton(buttonText: string = "Press"): void {
         let button: Element = document.createElement('button');
         button.textContent = buttonText;
