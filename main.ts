@@ -56,7 +56,7 @@ class Game {
 
     buildScreen(): void {
         this.addDiceBox();
-        this.addScoreBox('scorebox');
+        this.addScoreBox();
         if (this.gameRound == 0) {
             this.addPlayButton('Start Game');
         }
@@ -102,11 +102,16 @@ class Game {
             });
         }
 
-        if (this.gameRound != 0) {
-            // this.loadDice();
+        if ( ! this.loadDice()) {
+            let dicebox = document.getElementById('dicebox');
+            this.dice[0].div.appendChild(this.dice[0].p);
+            this.dice[1].div.appendChild(this.dice[1].p);
+            dicebox.appendChild(this.dice[0].div);
+            dicebox.appendChild(this.dice[1].div);
         }
+
         // this.loadDice(true);
-        this.loadDice();
+        // this.loadDice();
 
         if (_.isEmpty(this.dice)) {
             console.log("Dice loading failed!");
@@ -116,11 +121,15 @@ class Game {
         }
     }
 
-    loadDice(isLogged:boolean=false): void {
+    loadDice(isLogged:boolean=false): boolean {
         this.throwCount = 0;
         let die: dieRoller = new dieRoller();
         let diceLog: string;
         let gamebox = document.getElementById('dicebox');
+
+        if (this.gameRound == 0) {
+            return false;
+        }
 
         _.each(this.dice, (elem) => {
             die.rollDie();
@@ -152,6 +161,8 @@ class Game {
         if (isLogged) {
             console.log(`${diceLog}`);
         }
+
+        return true;
     }
 
     addPlayButton(buttonText: string = "Press"): void {
@@ -165,7 +176,7 @@ class Game {
         this.gameContainer.appendChild(button);
     }
 
-    addScoreBox(elementId:string='dicebox'): void {
+    addScoreBox(elementId:string='scorebox'): void {
         let scoreBox: Element = document.createElement('div');
         scoreBox.className = elementId;
 
