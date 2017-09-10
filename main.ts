@@ -5,7 +5,11 @@ import dieRoller from './dieRoller.js';
 //@link https://lodash.com/docs/4.17.4
 
 /**
- * Self-Assessment 4: Further Extend Dice Rolling App
+ * Self-Assessment 4: Further Extend Dice Rolling Game
+ * 
+ * @author Brian Teachman
+ * 
+ * Aside from external libraries (chance and lodash), all work is my own.
  */
 
 interface DiceElement {
@@ -103,15 +107,11 @@ class Game {
         }
 
         if ( ! this.loadDice()) {
-            let dicebox = document.getElementById('dicebox');
             this.dice[0].div.appendChild(this.dice[0].p);
             this.dice[1].div.appendChild(this.dice[1].p);
             dicebox.appendChild(this.dice[0].div);
             dicebox.appendChild(this.dice[1].div);
         }
-
-        // this.loadDice(true);
-        // this.loadDice();
 
         if (_.isEmpty(this.dice)) {
             console.log("Dice loading failed!");
