@@ -56,7 +56,7 @@ class Game {
 
     buildScreen(): void {
         this.addDiceBox();
-        this.addScoreBox('score-box');
+        this.addScoreBox('scorebox');
         if (this.gameRound == 0) {
             this.addPlayButton('Start Game');
         }
@@ -65,7 +65,11 @@ class Game {
         }
     }
 
-    addDiceBox(): void {
+    addDiceBox(elementId:string='dicebox'): void {
+        let dicebox: Element = document.createElement('div');
+        (dicebox as HTMLElement).id = elementId;
+        this.gameContainer.appendChild(dicebox);
+
         for (let index: number = 0; index < this.numOfDice; index++) {
 
             let div: Element = document.createElement('div');
@@ -98,7 +102,9 @@ class Game {
             });
         }
 
-        // if (this.gameRound != 0) { }
+        if (this.gameRound != 0) {
+            // this.loadDice();
+        }
         // this.loadDice(true);
         this.loadDice();
 
@@ -112,8 +118,9 @@ class Game {
 
     loadDice(isLogged:boolean=false): void {
         this.throwCount = 0;
-        let diceLog: string;
         let die: dieRoller = new dieRoller();
+        let diceLog: string;
+        let gamebox = document.getElementById('dicebox');
 
         _.each(this.dice, (elem) => {
             die.rollDie();
@@ -127,10 +134,10 @@ class Game {
 
             elem.div.appendChild(elem.img);
             elem.div.appendChild(elem.p);
-            this.gameContainer.appendChild(elem.div);
+            gamebox.appendChild(elem.div);
 
             this.throwCount += n_roll;
-            console.log('Throw: '+this.throwCount);
+            console.log('Throw: '+n_roll+'\t Total: '+this.throwCount);
 
             // logging
             diceLog += elem.p.textContent + " ";
@@ -158,9 +165,9 @@ class Game {
         this.gameContainer.appendChild(button);
     }
 
-    addScoreBox(className?: string): void {
+    addScoreBox(elementId:string='dicebox'): void {
         let scoreBox: Element = document.createElement('div');
-        scoreBox.className = className;
+        scoreBox.className = elementId;
 
         let scoreBoxTitle: Element = document.createElement('h2');
         scoreBoxTitle.textContent = 'Score';

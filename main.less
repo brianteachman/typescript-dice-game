@@ -4,24 +4,29 @@
 @color-light-blue: lightskyblue;
 
 #dice-game {
+    border: @color-light-blue solid 1em;
     display: grid;
-    grid-template-columns: 140px 140px 140px 140px 3fr 1fr;
-    /* grid-template-rows: 1fr; */
+    grid-template-columns: 280px 140px 140px 3fr 1fr;
 
-    .dice-holder {
-        background-color: @color-light;
-        border: @color-light-blue solid 1em;
-        padding: 10px 10px 0;
+    #dicebox {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
 
-        p {
-            font-size: 1.8em;
-            line-height: 1em;
-            text-align: center;
-        }
+        .dice-holder {
+            background-color: @color-light;
+            // border: @color-light-blue solid 1em;
+            padding: 10px 10px 0;
 
-        img {
-            width: auto;
-            max-width: 90px;
+            p {
+                font-size: 1.8em;
+                line-height: 1em;
+                text-align: center;
+            }
+
+            img {
+                width: auto;
+                max-width: 90px;
+            }
         }
     }
 
@@ -33,7 +38,7 @@
         padding: 10px;
     }
 
-    .score-box {
+    .scorebox {
         h2 {
             font-size: 2em;
             text-align: center;
