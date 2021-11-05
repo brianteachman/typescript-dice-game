@@ -3,13 +3,13 @@
     "version": "1.0.0",
     "description": "",
     "author": "MRBTX <brianteachman@gmail.com> (https://brianteachman.com)",
-    "main": "./main.js",
+    "main": "./build/main.js",
     "private": true,
     "scripts": {
         "dev": "",
         "start": "npm run dev",
         "unit": "",
-        "test": "c",
+        "test": "",
         "lint": "eslint --ext .js",
         "build": "node build/build.js"
     },
