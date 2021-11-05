@@ -13,6 +13,9 @@
         "lint": "eslint --ext .js",
         "build": "node build/build.js"
     },
+    "dependencies": {
+        "less": "latest"
+    },
     "devDependencies": {
         "@types/chance": "^0.7.33",
         "@types/lodash": "latest",
