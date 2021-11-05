@@ -1,7 +1,11 @@
 node_modules/*
 .vscode/*
-*.js
+build/
+package-lock.json
+
 *.css
 *.bak*
 *.map
-package-lock.json
+
+*.js
+!server.js
