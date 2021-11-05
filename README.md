@@ -5,14 +5,16 @@ Project app to learn TypeScript Fundmentals.
 
 ## Get `er going
 
+From a terminal run these commands to get set up:
 
         $ npm install
-        $ tsc main.ts
-        $ tsc dieRoller.ts
+        $ tsc --outDir build main.ts
+        $ lessc main.less build/main.css
         $ node server.js
 
+**Note**: If your using VS Code, run the Task *Start Server*, *Compile JS*, or *Compile Less* by pressing `Ctrl+Shift+B`.
 
-Press [Ctrl+C] when done.
+Press `Ctrl+C` when done.
 
 
 ## TODOs:

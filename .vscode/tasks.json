@@ -1,0 +1,26 @@
+// Less configuration
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start Server",
+            "type": "shell",
+            "command": "node server.js",
+            "group": "build"
+        },
+        {
+            "label": "Compile JS",
+            "type": "shell",
+            "command": "tsc --outDir build main.ts",
+            "group": "build"
+        },
+        {
+            "label": "Compile Less",
+            "type": "shell",
+            "command": "lessc main.less build/main.css",
+            "group": "build"
+        }
+    ]
+}
