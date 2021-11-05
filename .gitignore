@@ -4,3 +4,4 @@ node_modules/*
 *.css
 *.bak*
 *.map
+package-lock.json

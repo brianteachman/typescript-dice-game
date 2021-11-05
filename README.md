@@ -1,11 +1,21 @@
 
-# Self-Assessment : Dice Game
-
-EDx: TypeScript
+# Dice Game
 
 Project app to learn TypeScript Fundmentals.
 
-## Objectives:
+## Get `er going
+
+
+        $ npm install
+        $ tsc main.ts
+        $ tsc dieRoller.ts
+        $ node server.js
+
+
+Press [Ctrl+C] when done.
+
+
+## TODOs:
 
 1. Convert your dieRoller class to be a compositional or Mixin class.
 
@@ -18,6 +28,7 @@ Project app to learn TypeScript Fundmentals.
 5. Make a decorator function to replace your classes random number function with the API method.
 
 6. Create a tsconfig.json and default task in Visual Studio Code.
+
 
 ---
 

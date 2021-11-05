@@ -37,6 +37,8 @@ class Game {
         this.parentName = parentName;
         this.gameContainer = document.getElementById(this.parentName);
         this.gameRound = 0;
+        this.throwCount = 0;
+        this.score = 0;
         console.log('Game instantiated: started in element id="'+this.parentName+'" .');
     }
 

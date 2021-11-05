@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="build/main.css">
 </head>
 
 <body>
@@ -14,10 +14,10 @@
             map: {
                 'lodash': './node_modules/lodash/lodash.js',
                 'chance': './node_modules/chance/chance.js',
-                'dieRoller': './dieRoller.js'
+                'dieRoller': './build/dieRoller.js'
             }
         });
-        SystemJS.import('main.js').then(function(m) {
+        SystemJS.import('build/main.js').then(function(m) {
             console.log(m);
         });
     </script>
