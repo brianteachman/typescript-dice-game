@@ -12,7 +12,7 @@ From a terminal run these commands to get set up:
         $ lessc main.less build/main.css
         $ node server.js
 
-**Note**: If your using VS Code, run the Task *Start Server*, *Compile JS*, or *Compile Less* by pressing `Ctrl+Shift+B`.
+**Note**: If your using VS Code, the above commands can be called  by pressing `Ctrl+Shift+B` and running the VS Code Task *Compile TS*, *Compile Less*, or *Start Server*.
 
 Press `Ctrl+C` when done.
 
